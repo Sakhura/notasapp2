@@ -2,14 +2,14 @@ package com.sakhura.notasapp2
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sakhura.notasapp2.adapter.NotasAdapter
 import com.sakhura.notasapp2.data.NotasManager
 import com.sakhura.notasapp2.databinding.ActivityMainBinding
+import com.sakhura.notasapp2.model.Nota
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,26 +25,50 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupRecyclerView()
+        setupSearchFunctionality()
+        setupFabButton()
+    }
+
+    private fun setupRecyclerView() {
         binding.rvNotas.layoutManager = LinearLayoutManager(this)
-        binding.fabAgregar.setOnClickListener {
+        actualizarLista()
+    }
+
+    private fun setupFabButton() {
+        binding.fabAgregar?.setOnClickListener {
             val intent = Intent(this, DetalleNotaActivity::class.java)
             startActivity(intent)
         }
-        binding.etBuscar.addTextChangedListener {_, _, _, _ ->
-            val texto = binding.etBuscar.text.toString()
-            actualizarLista(texto)
-            true
-        }
+    }
 
-        }
+    private fun setupSearchFunctionality() {
+        // Buscar el campo de búsqueda por findViewById como alternativa
+        val etBuscar = findViewById<com.google.android.material.textfield.TextInputEditText>(
+            com.sakhura.notasapp2.R.id.etBuscar
+        )
+
+        etBuscar?.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                val texto = s.toString()
+                actualizarLista(texto)
+            }
+        })
+    }
 
     private fun actualizarLista(filtro: String = "") {
-        val notasFiltradas = if(filtro.isEmpty()) NotasManager.listaNotas else NotasManager.buscarNotas(filtro)
-        binding.rvNotas.adapter = NotasAdapter(notasFiltradas) {
-            val intent = Intent(this, DetalleNotaActivity::class.java)
-            intent.putExtra("id", it.id)
-            startActivity(intent)
-        }
+        val notasFiltradas = if(filtro.isEmpty()) {
+            NotasManager.listaNotas
+        } else {
+            NotasManager.buscarNotas(filtro)
         }
 
+        binding.rvNotas.adapter = NotasAdapter(notasFiltradas) { nota ->
+            val intent = Intent(this, DetalleNotaActivity::class.java)
+            intent.putExtra("id", nota.id)
+            startActivity(intent)
+        }
     }
+}

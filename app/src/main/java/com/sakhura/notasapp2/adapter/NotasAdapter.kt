@@ -3,12 +3,14 @@ package com.sakhura.notasapp2.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.sakhura.notasapp2.databinding.ItemNotaBinding
 import com.sakhura.notasapp2.model.Nota
 
 class NotasAdapter (
     private val notas: List<Nota>,
-    private val onClick: (nota) -> Unit
+    private val onClick: (Nota) -> Unit
 ) : RecyclerView.Adapter<NotasAdapter.NotaViewHolder>(){
+
     inner class NotaViewHolder(val binding: ItemNotaBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotaViewHolder {
@@ -25,4 +27,8 @@ class NotasAdapter (
             onClick(nota)
         }
     }
+    override fun getItemCount(): Int {
+        return notas.size
+    }
+
 }
