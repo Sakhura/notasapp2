@@ -6,8 +6,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.sakhura.notasapp2.adapter.NotasAdapter
 import com.sakhura.notasapp2.data.NotasManager
+import com.sakhura.notasapp2.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 

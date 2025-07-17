@@ -9,7 +9,7 @@ object NotasManager {
         listaNotas.add(nota)
     }
 
-    fun actualizarNota(id: Long, nuevaTitulo: String, nuevoContenido: Nota) {
+    fun actualizarNota(id: Long, nuevaTitulo: String, nuevoContenido: String) {
         listaNotas.find { it.id == id }?.apply {
             titulo = nuevaTitulo
             contenido = nuevoContenido
@@ -24,6 +24,6 @@ object NotasManager {
     }
 
     fun eliminarNota(id: Long) {
-        return listaNotas.find { it.id == id }
+       listaNotas.removeAll { it.id == id }
     }
 }
