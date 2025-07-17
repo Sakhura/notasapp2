@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.sakhura.notasapp2.data.NotasManager
 import com.sakhura.notasapp2.model.Nota
+import com.sakhura.notasapp2.databinding.ActivityDetalleNotaBinding
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
